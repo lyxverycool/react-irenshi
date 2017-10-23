@@ -1,9 +1,5 @@
 // 薪资单样式
-.index{
-	width:100%;
-	height:100%;
-	background: url("../../img/salary/bg.png") no-repeat;
-	background-size: cover;
+.enters{	
 	position: relative;
 	.logo{
 		width:6.464rem;
@@ -37,6 +33,164 @@
 			height:3.306667rem;
 		}
 	}
+}
+.detail{
+	width:100%;
+	height:100%;
+	background:#f8f8f8;
+	.detail-head{
+		width:100%;
+		height:2.56rem;
+		.left{
+			width:1.28rem;
+			height:2.56rem;
+			border-right:1px solid #ccc;
+			-webkit-tap-highlight-color:transparent;
+			img{
+				width:.853333rem;
+				height:.853333rem;
+			}
+		}
+		.right{
+			width:1.28rem;
+			height:2.56rem;
+			-webkit-tap-highlight-color:transparent;
+			img{
+				width:.853333rem;
+				height:.853333rem;
+			}
+		}
+		.swiper-container{
+			height:2.56rem;
+		}
+		.months{
+			width:13.44rem;
+			.month{
+				width:3.370667rem;
+				height:2.56rem;
+				color:#999999;
+				padding-top:.746667rem;
+				border-right:1px solid #ccc;
+				.month-top{
+					font-size:.512rem;
+				}
+				.month-center{
+					font-size:.597333rem;
+				}
+			}
+			.month-select{
+				width:3.370667rem;
+				height:2.56rem;
+				padding-top:.746667rem;
+				border-right:1px solid #ccc;
+				color:#333;
+				background: #fff;
+				border-right:1px solid #ccc;
+				.month-top{
+					font-size:.512rem;
+				}
+				.month-center{
+					font-size:.597333rem;
+				}
+			}
+		}
+	}
+	.detail-lists{
+		width:100%;
+		background: #fff;
+		padding-left:.64rem;
+		border-bottom:1px solid #ccc;
+		border-top:1px solid #ccc;
+		.detail-list{
+			width:100%;
+			height:1.984rem;
+			line-height:1.984rem;
+			padding-right:.768rem;
+			border-bottom:1px solid #ccc;
+			.list-left{
+				color:#333333;
+				font-size:.725333rem;
+			}
+			.list-right{
+				color:#999;
+				font-size:.725333rem;
+				float:right;
+			}
+			&:last-child{
+				border:0;
+			}
+		}
+		.salaryAll{
+			width:100%;
+			height:3.413333rem;
+			border-bottom:1px solid #ccc;
+			padding-right:.768rem;
+			img{
+				width:2.56rem;
+				height:2.56rem;
+			}
+			.salary-left{
+				height:3.413333rem;
+				float:left;
+				padding-top:.426667rem;
+			}
+			.salary-right{
+				height:3.413333rem;
+				float:right;
+				padding-top:1.28rem;
+				.money{
+					color:#333;
+					font-size:.896rem;
+				}
+				.month{
+					color:#999999;
+					font-size:.512rem;
+					float:right;
+				}
+			}
+		}
+	}
+	.classify{
+		width:100%;
+		.title{
+			width:100%;
+			padding-left:.64rem;
+			height:1.28rem;
+			color:#999999;
+			font-size:.597333rem;
+		}
+	}
+}
+.weui-cell {
+    padding: 10px 15px;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.weui-cell:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #f2f2f2;
+    color: #f8f8f8;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    left: 15px;
+    z-index: 2;
+}
+.swiper-container{
+	width: 16rem;
+	height: 4.266667rem;
+	-webkit-tap-highlight-color:transparent;
 }
 // 动画
 @-webkit-keyframes fadeInRight {
@@ -123,11 +277,12 @@
 	animation-fill-mode:forwards; 
 	-webkit-animation-fill-mode:forwards;
 }
+//波纹动画
 .dot {
-	animation: sploosh 2.5s cubic-bezier(0.165, 0.84, 0.44, 1) 1s;
+	animation: sploosh 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) 1s;
   }
   .dot2 {
-	animation: sploosh2 2.5s cubic-bezier(0.165, 0.84, 0.44, 1) 1s;
+	animation: sploosh2 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) 1s;
   }
   .dot,.dot2{
 	width:6.4rem;
@@ -154,3 +309,21 @@
 	}
   }
  
+// 背景图移动动画
+
+@-webkit-keyframes animate-cloud {
+	from {
+	background-position: 600px 100%;
+	}
+	to {
+	background-position: 0 100%;
+	}
+}
+@keyframes  animate-cloud {
+	from {
+	background-position: 600px 100%;
+	}
+	to {
+	background-position: 0 100%;
+	}
+}

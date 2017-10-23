@@ -1,7 +1,5 @@
 import React,{Component,PropTypes} from "react";
-import {Router, Route, hashHistory,IndexRoute} from 'react-router';
-import Header from '../common/header_1';
-import Footer from '../common/footer';
+import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
 require ('./login.scss')
 
 export default class Login extends Component{
@@ -12,6 +10,13 @@ export default class Login extends Component{
         code:'', //验证码
         errorInfo:'',
         login:'登录',
+        type:'+86'
+    }
+    this.enter=()=>{
+        hashHistory.push('/enter')
+    }
+    this.select=()=>{
+        hashHistory.push('/loginSelect')
     }
     this.changeValue=(type,event)=>{
       if(type==='tel'){
@@ -80,8 +85,21 @@ export default class Login extends Component{
       }
     }
   }
-   componentDidMount() {
-        
+   componentWillMount() {
+    document.title="登录";
+    let type=localStorage.getItem("selectType");
+    if(type){
+        if(type=='china'){
+            this.setState({
+                type:'+86'
+            }) 
+        }
+        if(type=='singapore'){
+            this.setState({
+                type:'+85'
+            }) 
+        }
+    }
         // console.log(userInfo);       
         // this.setState({
         //     tel:userInfo.tel,
@@ -92,57 +110,31 @@ export default class Login extends Component{
     }
   render(){
     return (
-    	<div className="container flex flex-pack-center flex-align-center">
-          <div className="wrap">
-              <div className="common-dialog text-center" id="success-html">
-                  <div className="dialogImg"></div>
-                  <div className="text-1">注册成功</div>
-                  <div className="text-2">请在PC端输入网址</div>
-                  <div className="text-2">www.ihr360.com 登录即可！</div>
-                  <button type="button" className="adRight text-center" id="goAd">
-                      确定
-                  </button>
-              </div>
-              <div id="login-html">
-                  <div className="logo text-center">
-                      <div className="logo-img"></div>
-                  </div>
-                  <div className="title text-center">
-                     手机
-                  </div>
-                  <form name="registerForm" className="form">
-                      <div id="validateVerifyCode">
-                          <div className="content flex flex-align-center">
-                              <div className="list-pic flex flex-align-center">
-                                  <div className="icon2 icon">
-                                  </div>
-                              </div>
-                              <input className="tel" maxLength="11" type="tel" name="mobileNo" id="mobileNo" value={this.state.tel} onChange={this.changeValue.bind(this,'tel')} placeholder="登录手机号"/>
-                          </div>
-                          <div className="content flex flex-align-center">
-                              <div className="list-pic flex flex-align-center">
-                                  <div className="icon3 icon">
-                                  </div>
-                              </div>
-                              <input className="number" type="text" name="verifyCode" id="verifyCode" placeholder="验证码" value={this.state.code} onChange={this.changeValue.bind(this,'code')} />
-                              <button type="button" className="gain text-center" id="sendVerifyCode">
-                                  获取验证码
-                              </button>
-                          </div>
-                      </div>
-                      <button className="text-center register" id="registeredButton" type="button"  onClick={this.login}>
-                          {this.state.login}
-                      </button>
-                      <div className="error-msg">
-                          {this.state.errorInfo}
-                      </div>
-                      <div className="copyright">
-                          <span>Copyright © 2016  上海利唐信息科技有限公司 版权所有</span>
-                      </div>
-                  </form>
-              </div>
+        <div className="login container">
+          <div className="logo flex flex-pack-center">
+            <img src={require('../../img/login/logo.png')} alt=""/>
           </div>
-      </div>
+          <form action="" className="form">
+            <div className="information flex flex-align-center">
+                <img src={require('../../img/login/company.png')} alt=""/>
+                <input type="text" placeholder="公司名称" className="company"/>
+            </div>
+            <div className="mobile flex flex-align-center">
+                <img src={require('../../img/login/mobile.png')} alt=""/>
+                <span className="local" onClick={this.select}>{this.state.type}</span>
+                <span className="jian">&gt;</span>
+                <input type="tel" maxLength="11" placeholder="手机号" className="mobileNumber"/>
+            </div>
+            <div className="information flex flex-align-center">
+                <img src={require('../../img/login/code.png')} alt=""/>
+                <input type="text" placeholder="密码" className="passwords"/>
+            </div>
+            <div className="loginIn" onClick={this.enter}>
+                登录
+            </div>
+            <Link to={'/loginForget'} className="forgetPassword">忘记密码</Link>
+          </form>
+        </div>
     );
   }
 

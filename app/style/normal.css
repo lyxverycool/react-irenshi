@@ -23,6 +23,11 @@ body {
    appearance: none;
    outline: none;
    border: none;
+   background-color:transparent;		
+}
+input::-webkit-input-placeholder {
+  color:#ccc;
+  font-size: .725333rem;
 }
 img,a{
  border: 0;
@@ -138,5 +143,30 @@ input:focus::-webkit-input-placeholder{color:#EEEEEE;}*/
    -webkit-transform: rotate3d(0, 0, 1, 360deg);
  }
 }
-
-
+.border-1px, .border-bottom-1px, .border-top-1px, .border-left-1px, .border-right-1px {
+  position: relative;
+}
+/*线条颜色 黑色*/
+.border-1px::after, .border-bottom-1px::after, .border-top-1px::after, .border-left-1px::after, .border-right-1px::after {
+    background-color: #ccc; 
+}
+/*底边边框一像素*/
+.border-bottom-1px::after {
+    content:"";
+    position: absolute; 
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    transform-origin: 0 0;
+}
+ /*上边边框一像素*/
+ .border-top-1px::after {
+  content:"";
+   position: absolute; 
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 1px;
+   transform-origin: 0 0;
+}

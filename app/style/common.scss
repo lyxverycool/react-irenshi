@@ -1,0 +1,27 @@
+.container{
+    width:100%;
+	min-height:100%;
+	background: url("../img/salary/bg.png") repeat;
+	background-size: cover;
+	-webkit-animation: animate-cloud 100s linearinfinite;
+	animation: animate-cloud 100s linear infinite;
+}
+
+// 背景图移动动画
+
+@-webkit-keyframes animate-cloud {
+	from {
+	background-position: 600px 100%;
+	}
+	to {
+	background-position: 0 100%;
+	}
+}
+@keyframes  animate-cloud {
+	from {
+	background-position: 600px 100%;
+	}
+	to {
+	background-position: 0 100%;
+	}
+}
