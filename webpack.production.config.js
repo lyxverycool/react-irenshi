@@ -1,9 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const ExtractTextPlugin=require('extract-text-webpack-plugin');
 const uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-
+const cssExtractor = new ExtractTextPlugin('./[name].css');
 module.exports = {
   devtool: 'cheap-source-map',
   entry: [
@@ -17,10 +17,9 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.css$/, include: path.resolve(__dirname, 'app'), loader: 'style-loader!css-loader' },
       { test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel-loader'},
       { test: /\.(png|jpg|svg)$/,include: path.resolve(__dirname, 'app'),loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]'},
-      { test:/\.(scss|sass)$/,include: path.resolve(__dirname, 'app'),loader:'style-loader!css-loader!sass-loader'},
+      { test: /\.scss$/i, include: path.resolve(__dirname, 'app'),loader: cssExtractor.extract(['css','sass'])},
       { test: /\.html$/,loader: 'html-withimg-loader'}
     ]
   },
@@ -29,6 +28,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.DedupePlugin(),
+    cssExtractor,
     new uglifyJsPlugin({
       compress: {
         warnings: false

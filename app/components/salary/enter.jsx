@@ -28,7 +28,7 @@ export default class Enter extends Component{
           </div>
         </div>
       </div>
-      <div  onClick={this.enter} className="middle fadeInBottoms flex flex-align-center flex-pack-center">
+      <div onClick={this.enter} className="middle fadeInBottoms flex flex-align-center flex-pack-center">
           <img src={require('../../img/salary/salary.png')} alt=""/>
         </div>
 		</div>

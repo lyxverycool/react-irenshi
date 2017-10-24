@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-
+const ExtractTextPlugin=require('extract-text-webpack-plugin');
+const cssExtractor = new ExtractTextPlugin('./[name].css');
 module.exports = {
   devServer: {
     historyApiFallback: true,
@@ -24,16 +25,16 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.css$/, include: path.resolve(__dirname, 'app'), loader: 'style-loader!css-loader' },
       { test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.(png|jpg|svg)$/,include: path.resolve(__dirname, 'app'),loader: 'url-loader'},
-      { test:/\.(scss|sass)$/,include: path.resolve(__dirname, 'app'),loader:'style-loader!css-loader!sass-loader'}
+      { test: /\.scss$/i, include: path.resolve(__dirname, 'app'),loader: cssExtractor.extract(['css','sass'])},
     ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   plugins: [
+    cssExtractor,
     new OpenBrowserPlugin({ url: 'http://localhost:8088' })
   ]
 };

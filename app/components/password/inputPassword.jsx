@@ -62,15 +62,15 @@ export default class InputPassword extends Component{
         <div className="title">请输入您的查询密码</div>
         <div className="inputCode">
           <div className="input flex flex-justify-around">
-            <input type="tel" placeholder="" maxLength="1" value={this.state.psd1} onChange={this.changeValue.bind(this,'psd1')}/>
+            <input type="tel"  placeholder="" maxLength="1" value={this.state.psd1} onChange={this.changeValue.bind(this,'psd1')}/>
             <input type="tel" placeholder="" maxLength="1" value={this.state.psd2} onChange={this.changeValue.bind(this,'psd2')}/>
             <input type="tel" placeholder="" maxLength="1" value={this.state.psd3} onChange={this.changeValue.bind(this,'psd3')}/>
             <input type="tel" placeholder="" maxLength="1" value={this.state.psd4} onChange={this.changeValue.bind(this,'psd4')}/>
           </div>
           <Link className="forgetPassWord" to={ 
               { 
-                  pathname:"/sendCode", 
-                  query:{entry:'forgetPassword'} 
+                pathname:"/sendCode", 
+                query:{entry:'searchPassword'} 
               } 
           }>
             忘记密码?
@@ -80,10 +80,10 @@ export default class InputPassword extends Component{
           </div>
         </div>
         <div className="mobile-search flex flex-pack-center"> 
-          <Link to={ { 
-                  pathname:"/sendCode", 
-                  query:{entry:'mobileSearch'} 
-              } } >通过手机验证查询</Link>
+          <Link to={{ 
+                pathname:"/sendCode", 
+                query:{entry:'mobileSearch'} 
+              }} >通过手机验证查询</Link>
         </div>
       </div>
     );

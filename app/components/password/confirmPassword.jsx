@@ -45,7 +45,7 @@ export default class ConfirmPassword extends Component{
               }, 1000);
             }
           }
-        }, 1500);
+        }, 500);
         break;
       }   
     }

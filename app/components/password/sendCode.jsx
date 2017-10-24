@@ -36,11 +36,14 @@ export default class SendCode extends Component{
         let Id=this.props.location.query.entry;
         this.timer=setTimeout(()=> {
           if(psd){
-              if(Id == 'forgetPassword'){
-                  hashHistory.push('/setPassword')
-              }
-              if(Id == 'mobileSearch'){
-                hashHistory.push('/detail')
+            if(Id == 'searchPassword'){
+                hashHistory.push('/setPassword')
+            }
+            if(Id == 'mobileSearch'){
+              hashHistory.push('/detail')
+            }
+            if(Id == 'loginPassword'){
+              hashHistory.push('/loginSet')
             }
           }
         }, 1500);

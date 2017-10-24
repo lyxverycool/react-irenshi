@@ -1,4 +1,7 @@
 .login{
+	width:100%;
+	height:100%;
+	background:#f8f8f8;
 	padding-top:2.56rem;
 	.logo{
 		width:100%;
@@ -24,7 +27,7 @@
 			input{
 				width:10.24rem;
 				height:1.253333rem;
-				color:#ccc;
+				color:#fff;
 				font-size:.725333rem;
 			}
 		}
@@ -46,7 +49,7 @@
 				width:8.24rem;
 				height:1.253333rem;
 				line-height: .853333rem;
-				color:#ccc;
+				color:#fff;
 				font-size:.725333rem;
 				background-color:transparent;
 			}
@@ -81,6 +84,13 @@
 			&:last-child{
 				border:0;
 			}
+			input{
+				width:8.24rem;
+				height:1.253333rem;
+				line-height: 1.253333rem;
+				color:#333333;
+				font-size:.725333rem;
+			}
 		}
 	}
 }
@@ -97,7 +107,7 @@
 		margin-bottom:.426667rem;
 		padding-left:.554667rem;
 		input{
-			width:8.24rem;
+			width:14.24rem;
 			height:1.253333rem;
 			line-height: 1.253333rem;
 			color:#333333;
@@ -141,10 +151,6 @@
 			}
 		}
 	}
-	.login-last{
-		width:13.866667rem;
-		margin:0 auto;
-	}
 }
 .loginIn{
 	width:100%;
@@ -156,6 +162,19 @@
 	text-align: center;
 	border-radius: .213333rem;
 	font-size:.810667rem;
+	display: block;
+}
+.loginInNext{
+	width:100%;
+	margin-top:.64rem;
+	height:1.706667rem;
+	line-height: 1.706667rem;
+	color:#fff;
+	background: #00BF93;
+	text-align: center;
+	border-radius: .213333rem;
+	font-size:.725333rem;
+	display: block;
 }
 .forgetPassword{
 	float: right;
@@ -163,4 +182,14 @@
 	line-height:2.4rem;
 	height:2.4rem;
 	color:#00BF93;
+}
+.login-last{
+	width:13.866667rem;
+	margin:0 auto;
+}
+.wrongInfo{
+	width:100%;
+	height:4.133333rem;
+	color:#FF0004;
+	font-size:.682667rem;
 }

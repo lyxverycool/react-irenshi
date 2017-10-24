@@ -6,108 +6,101 @@ export default class Login extends Component{
   constructor(props){
     super(props);
     this.state={
-        tel:'', //手机号码
-        code:'', //验证码
-        errorInfo:'',
-        login:'登录',
-        type:'+86'
-    }
-    this.enter=()=>{
-        hashHistory.push('/enter')
+			mobile:'', //手机号码
+			company:'', //公司
+			password:'', //公司
+      errorInfo:'',
+      login:'登录',
+      type:'+86'
     }
     this.select=()=>{
         hashHistory.push('/loginSelect')
     }
     this.changeValue=(type,event)=>{
-      if(type==='tel'){
-          let telNumber=event.target.value;
-          this.setState({
-            tel:telNumber,
-            errorInfo:''
-          })
-      }
-      if(type==='code'){
-        let telCode=event.target.value;
+      if(type==='mobile'){
+				let telNumber=event.target.value;
+				this.setState({
+					mobile:telNumber,
+					errorInfo:''
+				})
+			}
+			if(type==='company'){
+				let company=event.target.value;
+				this.setState({
+					company:company,
+					errorInfo:''
+				})
+			}
+      if(type==='password'){
+        let password=event.target.value;
         this.setState({
-          code:telCode,
+          password:password,
           errorInfo:''
         })
       }
     }
     this.login =()=>{ 
-      if(!this.state.tel){
+      if(!this.state.mobile){
         this.setState({
             errorInfo:'手机号不能为空！',
             login:'登录'
         }) 
       }
-      if(!this.state.code){
+      if(!this.state.password){
         this.setState({
-            errorInfo:'验证码不能为空！',
+            errorInfo:'密码不能为空！',
+            login:'登录'
+        }) 
+			}
+			if(!this.state.mobile){
+        this.setState({
+            errorInfo:'手机号不能为空！',
             login:'登录'
         }) 
       }
-      if(this.state.code&&this.state.tel){
+      if(!this.state.company){
+        this.setState({
+            errorInfo:'公司不能为空！',
+            login:'登录'
+        }) 
+      }
+      if(this.state.password&&this.state.company&&this.state.mobile){
         this.setState({
             login:'登录中……'
-        }) 
-        let userInfo=JSON.parse(localStorage.getItem("userInfo"));
-        if(!userInfo){
-            let user={
-            'tel':this.state.tel,
-            'code':this.state.code
-            }
-            user=JSON.stringify(user);
-            console.log(user)
-            localStorage.setItem("userInfo",user);
-        }
-        if(userInfo.tel != this.state.tel){
-            this.setState({
-                errorInfo:'手机号错误！',
-                login:'登录'
-            }) 
-        }
-        else if(userInfo.code!==this.state.code){
-            this.setState({
-                errorInfo:'验证码错误',
-                login:'登录'
-            }) 
-        }else{
-            this.setState({
-                login:'登录成功！'
-            }) 
-            setTimeout(function() {
-                hashHistory.push('/productIntroduce')
-            }, 500);
-        }
-        console.log(userInfo.tel)
-        console.log(this.state.tel)
+        })        
+				let user={
+				'company':this.state.company,
+				'mobile':this.state.mobile
+				}
+				user=JSON.stringify(user); 
+				localStorage.setItem("userInfo",user);
+				hashHistory.push('/enter')
       }
     }
   }
-   componentWillMount() {
+  componentWillMount() {
     document.title="登录";
     let type=localStorage.getItem("selectType");
     if(type){
-        if(type=='china'){
-            this.setState({
-                type:'+86'
-            }) 
-        }
-        if(type=='singapore'){
-            this.setState({
-                type:'+85'
-            }) 
-        }
-    }
-        // console.log(userInfo);       
-        // this.setState({
-        //     tel:userInfo.tel,
-        //     code:userInfo.code
-        // })
-      
-
-    }
+			if(type=='china'){
+					this.setState({
+							type:'+86'
+					}) 
+			}
+			if(type=='singapore'){
+					this.setState({
+							type:'+85'
+					}) 
+			}
+		}
+		let userInfo=JSON.parse(localStorage.getItem("userInfo"));
+		if(userInfo){
+			this.setState({
+				company:userInfo.company,
+				mobile:userInfo.mobile
+			})
+		}
+  }
   render(){
     return (
         <div className="login container">
@@ -117,25 +110,27 @@ export default class Login extends Component{
           <form action="" className="form">
             <div className="information flex flex-align-center">
                 <img src={require('../../img/login/company.png')} alt=""/>
-                <input type="text" placeholder="公司名称" className="company"/>
+                <input type="text" placeholder="公司名称" className="company" value={this.state.company} onChange={this.changeValue.bind(this,'company')}/>
             </div>
             <div className="mobile flex flex-align-center">
                 <img src={require('../../img/login/mobile.png')} alt=""/>
                 <span className="local" onClick={this.select}>{this.state.type}</span>
                 <span className="jian">&gt;</span>
-                <input type="tel" maxLength="11" placeholder="手机号" className="mobileNumber"/>
+                <input type="tel" maxLength="11" placeholder="手机号" className="mobileNumber" value={this.state.mobile} onChange={this.changeValue.bind(this,'mobile')}/>
             </div>
             <div className="information flex flex-align-center">
                 <img src={require('../../img/login/code.png')} alt=""/>
-                <input type="text" placeholder="密码" className="passwords"/>
+                <input type="password" placeholder="密码" className="passwords" value={this.state.password} onChange={this.changeValue.bind(this,'password')}/>
             </div>
-            <div className="loginIn" onClick={this.enter}>
+            <div className="loginIn" onClick={this.login}>
                 登录
             </div>
             <Link to={'/loginForget'} className="forgetPassword">忘记密码</Link>
+						<div className="wrongInfo flex flex-pack-center">
+							{this.state.errorInfo}
+          	</div>
           </form>
         </div>
     );
   }
-
 }

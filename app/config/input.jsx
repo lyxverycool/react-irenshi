@@ -19,7 +19,7 @@ function inputKey(){
     function listenKeyUp() {
         var beginBtn = document.querySelector('#beginBtn');
         if (!isNaN(this.value) && this.value.length != 0) {
-            if (active < 4) {
+            if (active < 3) {
                 active += 1;
             }
             inputBtn[active].focus();
@@ -29,19 +29,19 @@ function inputKey(){
             }
             inputBtn[active].focus();
         }
-        if (active >= 4) {
-            var _value = inputBtn[active].value;
-            if (beginBtn.className == 'begin-no' && !isNaN(_value) && _value.length != 0) {
-                beginBtn.className = 'begin';
-                beginBtn.addEventListener('click', function () {
-                    calculate.begin();
-                }, false);
-            }
-        } else {
-            if (beginBtn.className == 'begin') {
-                beginBtn.className = 'begin-no';
-            }
-        }
+        // if (active >= 4) {
+        //     var _value = inputBtn[active].value;
+        //     if (beginBtn.className == 'begin-no' && !isNaN(_value) && _value.length != 0) {
+        //         beginBtn.className = 'begin';
+        //         beginBtn.addEventListener('click', function () {
+        //             calculate.begin();
+        //         }, false);
+        //     }
+        // } else {
+        //     if (beginBtn.className == 'begin') {
+        //         beginBtn.className = 'begin-no';
+        //     }
+        // }
     }
 }
 export default  inputKey;

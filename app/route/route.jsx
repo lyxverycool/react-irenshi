@@ -6,14 +6,17 @@ import Detail from '../components/salary/detail';
 import Login from '../components/login/login';
 import LoginForget from '../components/login/loginForget';
 import LoginSelect from '../components/login/loginSelect';
+import LoginSet from '../components/login/loginSet';
 import SetPassword from '../components/password/setPassword';
 import InputPassword from '../components/password/inputPassword';
 import ConfirmPassword from '../components/password/confirmPassword';
 import SendCode from '../components/password/sendCode';
 import hotcss from '../config/app';
+import androidInputBugFix from '../config/autoFix';
+androidInputBugFix();
 
 require ('../style/common.scss');
-require ('../style/normal.css');
+require ('../style/normal.scss');
 
 class Main extends Component {
     render() {
@@ -32,6 +35,7 @@ const route =(
 			<Route path="/login" component={Login}/>
 			<Route path="/loginForget" component={LoginForget}/>
 			<Route path="/loginSelect" component={LoginSelect}/>
+			<Route path="/loginSet" component={LoginSet}/>
 			<Route path="/setPassword" component={SetPassword}/>
 			<Route path="/sendCode" component={SendCode}/>
 			<Route path="/inputPassword" component={InputPassword}/>

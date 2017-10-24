@@ -5,34 +5,34 @@ require ('./salary.scss')
 
 export default class Detail extends Component{
     constructor(props){
-        super(props);
-        this.state={
-            activeMonth:'0',
-            active:true
-        }
+			super(props);
+			this.state={
+					activeMonth:'0',
+					active:true
+			}
     }
     componentDidMount() {
-				document.title='我的薪资';
+		document.title='我的薪资';
         var mySwiper = new Swiper ('.swiper-container', {
-            slidesPerView: 4,
-            // // 如果需要前进后退按钮
-            nextButton: '.right',
-            prevButton: '.left',
-            slideToClickedSlide:true,
-            onSlideChangeEnd: (swiper)=>{
-                this.setState({
-                    activeMonth:swiper.activeIndex
-                }) 
-                console.log(this.state.activeMonth) //切换结束时，告诉我现在是第几个slide
-            },
-            onTap: (swiper)=>{
-                this.setState({
-                    activeMonth:swiper.clickedIndex
-								}) 
-								let lists=monthLists[this.state.activeMonth]
-							 console.log(this.state.activeMonth);
-            }
-          })  
+				slidesPerView: 4,
+				// // 如果需要前进后退按钮
+				nextButton: '.right',
+				prevButton: '.left',
+				slideToClickedSlide:true,
+				onSlideChangeEnd: (swiper)=>{
+						this.setState({
+								activeMonth:swiper.activeIndex
+						}) 
+						console.log(this.state.activeMonth)
+				},
+				onTap: (swiper)=>{
+					this.setState({
+						activeMonth:swiper.clickedIndex
+					}) 
+				let lists=monthLists[this.state.activeMonth]
+					console.log(this.state.activeMonth);
+					}
+				})  
     }
     render(){
 			let salary=monthLists[this.state.activeMonth];
