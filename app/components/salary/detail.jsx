@@ -1,7 +1,7 @@
 import React,{Component,PropTypes} from "react";
 import {Router, Route, hashHistory,IndexRoute} from 'react-router';
 import monthLists from './salaryText';
-require ('./salary.scss')
+require ('../../style/salary.scss')
 
 export default class Detail extends Component{
     constructor(props){
@@ -12,10 +12,9 @@ export default class Detail extends Component{
 			}
     }
     componentDidMount() {
-		document.title='我的薪资';
+			document.title='我的薪资';
         var mySwiper = new Swiper ('.swiper-container', {
 				slidesPerView: 4,
-				// // 如果需要前进后退按钮
 				nextButton: '.right',
 				prevButton: '.left',
 				slideToClickedSlide:true,
@@ -36,7 +35,6 @@ export default class Detail extends Component{
     }
     render(){
 			let salary=monthLists[this.state.activeMonth];
-			console.log(salary)
 			return (
 				<div className="detail">
 					<div className="detail-head flex">

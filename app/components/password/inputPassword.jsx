@@ -1,7 +1,7 @@
 import React,{Component,PropTypes} from "react";
 import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
 import password from '../../config/input';
-require ('./password.scss')
+require ('../../style/password.scss')
 
 export default class InputPassword extends Component{
   constructor(props){
@@ -68,10 +68,10 @@ export default class InputPassword extends Component{
             <input type="tel" placeholder="" maxLength="1" value={this.state.psd4} onChange={this.changeValue.bind(this,'psd4')}/>
           </div>
           <Link className="forgetPassWord" to={ 
-              { 
-                pathname:"/sendCode", 
-                query:{entry:'searchPassword'} 
-              } 
+            { 
+              pathname:"/sendCode", 
+              query:{entry:'searchPassword'} 
+            } 
           }>
             忘记密码?
           </Link>
@@ -88,5 +88,4 @@ export default class InputPassword extends Component{
       </div>
     );
   }
-
 }

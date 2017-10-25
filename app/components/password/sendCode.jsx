@@ -1,7 +1,7 @@
 import React,{Component,PropTypes} from "react";
 import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
 import password from '../../config/input';
-require ('./password.scss')
+require ('../../style/password.scss')
 
 export default class SendCode extends Component{
   constructor(props){

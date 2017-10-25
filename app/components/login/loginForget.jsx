@@ -1,6 +1,6 @@
 import React,{Component,PropTypes} from "react";
 import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
-require ('./login.scss')
+require ('../../style/login.scss')
 
 export default class LoginForget extends Component{
   constructor(props){

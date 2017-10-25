@@ -1,6 +1,6 @@
 import React,{Component,PropTypes} from "react";
 import {Router, Route, hashHistory,IndexRoute} from 'react-router';
-require ('./login.scss')
+require ('../../style/login.scss')
 
 export default class LoginSelect extends Component{
     constructor(props){

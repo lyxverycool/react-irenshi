@@ -1,6 +1,6 @@
 import React,{Component,PropTypes} from "react";
 import {Router, Route, hashHistory,IndexRoute} from 'react-router';
-require ('./salary.scss')
+require ('../../style/salary.scss')
 
 export default class Enter extends Component{
   constructor(props){
@@ -15,9 +15,9 @@ export default class Enter extends Component{
           }       
         }
     }
-   componentDidMount() {
+  componentDidMount() {
     document.title='i人事';
-    }
+  }
   render(){
     return (
 		<div className="container enters">
@@ -29,8 +29,8 @@ export default class Enter extends Component{
         </div>
       </div>
       <div onClick={this.enter} className="middle fadeInBottoms flex flex-align-center flex-pack-center">
-          <img src={require('../../img/salary/salary.png')} alt=""/>
-        </div>
+        <img src={require('../../img/salary/salary.png')} alt=""/>
+      </div>
 		</div>
     );
   }

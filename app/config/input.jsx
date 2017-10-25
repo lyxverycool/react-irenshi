@@ -1,3 +1,4 @@
+//输入键盘
 function inputKey(){
     var active = 0;
     var inputBtn = document.querySelectorAll('input');
