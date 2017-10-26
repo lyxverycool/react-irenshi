@@ -12,6 +12,10 @@ export default class SendCode extends Component{
       psd3:'',
       psd4:'',
       wrongInfo:'',
+      mobile:'',
+      style1:'none',
+      style2:'block',
+      count:60
       //wrongInfo:'验证码错误，请确认后再试！'
     }
     this.changeValue=(type,event)=>{
@@ -34,7 +38,7 @@ export default class SendCode extends Component{
         });
         let psd=this.state.psd1+''+this.state.psd2+''+this.state.psd3+''+event.target.value;
         let Id=this.props.location.query.entry;
-        this.timer=setTimeout(()=> {
+        this.timer1=setTimeout(()=> {
           if(psd){
             if(Id == 'searchPassword'){
                 hashHistory.push('/setPassword')
@@ -53,14 +57,46 @@ export default class SendCode extends Component{
   }  
   componentDidMount(){
     password();
+    //获取手机号
+    let mobile=this.props.location.query.mobile;
+    let mobileHide=mobile.substring(0,3)+"****"+mobile.substring(7,11); 
+    this.setState({mobile:mobileHide});
+    //定时器
+    const sendCode=()=>{
+      this.timer2 = setInterval(()=>{
+        var count = this.state.count;
+        count -= 1;
+        if (count < 1) {
+          this.setState({
+            style1:'block',
+            style2:'none',
+          });
+          count = 60;
+  　　　　 clearInterval(this.timer2);
+        }
+        this.setState({
+          count: count
+        });
+      }, 1000);
+    }
+    sendCode();
+    //重新发送
+    this.sendAgain=()=>{
+      this.setState({
+        style1:'none',
+        style2:'block',
+      });
+      sendCode();
+    }
   }
   componentWillUnmount() {
-    clearTimeout(this.timer)
+    clearTimeout(this.timer1)
+    clearTimeout(this.timer2)
   }
   render(){
     return (
       <div className="password">
-        <div className="title">已发送短信验证码至 158****1234</div>
+        <div className="title">已发送短信验证码至 {this.state.mobile}</div>
         <div className="inputCode">
           <div className="input flex flex-justify-around">
             <input type="tel" placeholder="" maxLength="1" value={this.state.psd1} onChange={this.changeValue.bind(this,'psd1')}/>
@@ -72,9 +108,12 @@ export default class SendCode extends Component{
             {this.state.wrongInfo}
           </div>
         </div>
-        <div className="mobile-search">
+        <div className="mobile-search" style={{display:this.state.style1}} onClick={this.sendAgain}>
             重新发送验证码
-          </div>
+        </div>
+        <div className="count" style={{display:this.state.style2}}>
+          接收短信大约需要{this.state.count}秒
+        </div>
       </div>
     );
   }

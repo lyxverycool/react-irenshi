@@ -11,6 +11,7 @@ export default class InputPassword extends Component{
       psd2:'',
       psd3:'',
       psd4:'',
+      mobile:''
     }
     this.changeValue=(type,event)=>{
       switch(type){
@@ -52,6 +53,12 @@ export default class InputPassword extends Component{
   }  
   componentDidMount(){
     password();
+    let userInfo=JSON.parse(localStorage.getItem("userInfo"));
+		if(userInfo){
+			this.setState({
+				mobile:userInfo.mobile
+			})
+		}
   }
   componentWillUnmount() {
     clearTimeout(this.timer)
@@ -70,7 +77,7 @@ export default class InputPassword extends Component{
           <Link className="forgetPassWord" to={ 
             { 
               pathname:"/sendCode", 
-              query:{entry:'searchPassword'} 
+              query:{entry:'searchPassword',mobile:this.state.mobile} 
             } 
           }>
             忘记密码?
@@ -82,7 +89,7 @@ export default class InputPassword extends Component{
         <div className="mobile-search flex flex-pack-center"> 
           <Link to={{ 
                 pathname:"/sendCode", 
-                query:{entry:'mobileSearch'} 
+                query:{entry:'mobileSearch',mobile:this.state.mobile} 
               }} >通过手机验证查询</Link>
         </div>
       </div>

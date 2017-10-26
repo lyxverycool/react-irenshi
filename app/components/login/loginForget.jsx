@@ -76,7 +76,7 @@ export default class LoginForget extends Component{
           <div className="login-last">
             <Link className="loginInNext" to={{ 
                 pathname:"/sendCode", 
-                query:{entry:'loginPassword'} 
+                query:{entry:'loginPassword',mobile:this.state.tel} 
               }} >下一步</Link>
             <Link to={'/login'} className="forgetPassword">返回登录</Link>
           </div>

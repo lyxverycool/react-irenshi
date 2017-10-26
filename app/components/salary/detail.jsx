@@ -12,7 +12,7 @@ export default class Detail extends Component{
 			}
     }
     componentDidMount() {
-			document.title='我的薪资';
+		document.title='我的薪资';
         var mySwiper = new Swiper ('.swiper-container', {
 				slidesPerView: 4,
 				nextButton: '.right',
