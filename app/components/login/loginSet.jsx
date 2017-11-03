@@ -1,5 +1,6 @@
 import React,{Component,PropTypes} from "react";
 import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
+import fetchRequest from '../../config/fetch';
 require ('../../style/login.scss')
 
 export default class LoginSet extends Component{
@@ -26,14 +27,46 @@ export default class LoginSet extends Component{
         })
       }
 		}  
+		//校验两次密码
 		this.enter=()=>{
+			let userInfo=JSON.parse(localStorage.getItem("userInfo"));
 			if(this.state.psd1&&this.state.psd2){
 				if(this.state.psd1 !== this.state.psd2){
 					this.setState({
 						errorInfo:'两次输入密码不一致,请重新输入！'
 					})
 				}else{
-					hashHistory.push('/login')
+					const _reg=/^\S{6,16}$/;
+					if(!(_reg.test(this.state.psd1))){
+						this.setState({
+							errorInfo:'请设置密码字符长度在6~16之间'
+						})
+					}else{
+						const userInfo=JSON.parse(localStorage.getItem("userInfo"));
+						let params={
+							userName:parseInt(userInfo.mobile),
+							password:this.state.psd2
+						}
+						fetchRequest('/account/weixinResetPasswordAppUser.do','POST',params)
+						.then( res=>{
+							//请求成功
+							if(res.response=="OK"){
+								this.setState({
+									errorInfo:'密码重设成功！'
+								})
+								setTimeout(()=>{
+									hashHistory.push('/login')
+								},1000);
+							}
+							if(res.response=="ERROR"){
+								this.setState({
+									errorInfo:res.error.message
+								})
+							}
+						}).catch( err=>{ 
+								//请求失败
+						})
+					}
 				}
 			}else{
 				this.setState({
@@ -50,10 +83,10 @@ export default class LoginSet extends Component{
       <div className="loginSelect">
 				<div className="detail-lists">
 					<div className="detail-list">
-						<input type="text" placeholder="请输入新密码" className="passwords"  value={this.state.psd1} onChange={this.changeValue.bind(this,'psd1')}/>
+						<input type="password" placeholder="请输入新密码" className="passwords"  value={this.state.psd1} onChange={this.changeValue.bind(this,'psd1')}/>
 					</div>
 					<div className="detail-list">
-						<input type="text" placeholder="请再次输入新密码" className="passwords"  value={this.state.psd2} onChange={this.changeValue.bind(this,'psd2')}/>
+						<input type="password" placeholder="请再次输入新密码" className="passwords"  value={this.state.psd2} onChange={this.changeValue.bind(this,'psd2')}/>
 					</div>
 				</div>  
 				<div className="login-last">

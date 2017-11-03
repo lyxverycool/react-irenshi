@@ -1,5 +1,6 @@
 import React,{Component,PropTypes} from "react";
 import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
+import fetchRequest from '../../config/fetch';
 require ('../../style/login.scss')
 
 export default class Login extends Component{
@@ -69,12 +70,46 @@ export default class Login extends Component{
             login:'登录中……'
         })        
 				let user={
-				'company':this.state.company,
-				'mobile':this.state.mobile
-				}
+				  company:this.state.company,
+				  mobile:this.state.mobile
+        }
 				user=JSON.stringify(user); 
-				localStorage.setItem("userInfo",user);
-				hashHistory.push('/enter')
+        localStorage.setItem("userInfo",user);
+        //请求登录接口
+        let params={
+          companyName:this.state.company,
+          mobileNo:this.state.mobile,
+          password:this.state.password,
+          weixinId:'ojWZrv3RBSyZzN1ah_qL3d1qGQmI'
+        }
+        fetchRequest('/account/loginAndBindingCompany.do','POST',params)
+        .then( res=>{
+          console.log(res)
+          if(res.response === 'ERROR'){
+            this.setState({
+              errorInfo:res.error.message,
+            })
+          }
+          if(res.response === 'OK'){
+            fetchRequest('/j_spring_security_check','POST')
+            .then( res=>{
+              if(res.success){
+                fetchRequest('/salaryWeixin/salaryPasswordInfo.do','POST').then(res=>{
+                  if(res.isHasSalaryPassword){
+                    hashHistory.push('/inputPassword')
+                  }else{
+                    hashHistory.push('/setPassword')
+                  }
+                })
+              }
+            }).catch( err=>{ 
+                //请求失败
+            })
+          }
+        }).catch( err=>{ 
+            //请求失败
+        })
+				//hashHistory.push('/enter')
       }
     }
   }

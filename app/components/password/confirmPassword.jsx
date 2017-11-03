@@ -1,6 +1,7 @@
 import React,{Component,PropTypes} from "react";
 import {Router, Route, hashHistory,IndexRoute} from 'react-router';
 import password from '../../config/input';
+import fetchRequest from '../../config/fetch';
 require ('../../style/password.scss')
 
 export default class ConfirmPassword extends Component{
@@ -35,7 +36,26 @@ export default class ConfirmPassword extends Component{
         this.timer=setTimeout(()=> {
           if(localStorage.getItem('searchPsd')){
             if(psd===localStorage.getItem('searchPsd')){
-              hashHistory.push('/detail')
+              let params={newSalaryPassword:parseInt(psd)}
+              fetchRequest('/salaryWeixin/setSalaryPassword.do','POST',params)
+              .then( res=>{
+                //请求成功
+                if(res.response=="OK"){
+                  this.setState({
+                    wrongInfo:'查询密码设置成功'
+                  });
+                  setTimeout(function() {
+                    hashHistory.push('/detail')
+                  }, 1000);
+                }
+                if(res.response=="ERROR"){
+                  this.setState({
+                    errorInfo:res.error.message
+                  })
+                }
+              }).catch( err=>{ 
+                  //请求失败
+              })
             }else{
               this.setState({
                 wrongInfo:'两次输入的查询密码不一致，请重新设置!'

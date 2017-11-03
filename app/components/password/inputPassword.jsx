@@ -1,6 +1,7 @@
 import React,{Component,PropTypes} from "react";
 import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
 import password from '../../config/input';
+import fetchRequest from '../../config/fetch';
 require ('../../style/password.scss')
 
 export default class InputPassword extends Component{
@@ -10,9 +11,9 @@ export default class InputPassword extends Component{
       psd1:'',
       psd2:'',
       psd3:'',
-      psd4:'',
-      mobile:''
+      psd4:''
     }
+    //输入查询密码
     this.changeValue=(type,event)=>{
       switch(type){
         case 'psd1':this.setState({
@@ -33,11 +34,20 @@ export default class InputPassword extends Component{
         
         let psd=this.state.psd1+''+this.state.psd2+''+this.state.psd3+''+event.target.value;
         this.timer=setTimeout(()=>{
-          if(psd === localStorage.getItem('searchPsd')){
-            hashHistory.push('/detail')
-          }else{
-            this.setState({
-              wrongInfo:'查询密码错误，请重新输入！'
+          if(psd.length>3){
+            let params={salaryPassword:parseInt(psd)}
+            fetchRequest('/salaryWeixin/checkPassword.do','POST',params)
+            .then( res=>{
+                //请求成功
+                if(res.responseCode==0){
+                  hashHistory.push('/detail')
+                }else{
+                  this.setState({
+                    wrongInfo:res.error.message
+                  })
+                }
+            }).catch( err=>{ 
+                //请求失败
             })
           }
           if(psd.length<4){
@@ -45,20 +55,49 @@ export default class InputPassword extends Component{
               wrongInfo:''
             })
           }
-          console.log(psd)
         },1000);
         break;
       }   
     }
+    //忘记密码
+    this.forgetPsd=()=>{ 
+        let params={codeType:'APP_RESET_SALARY_PASSWORD'};
+        fetchRequest('/account/sendDynamicCode.do','POST',params)
+        .then( res=>{
+          //请求成功
+          if(res.response=="OK"){
+            hashHistory.push({  
+              pathname: '/sendCode/',  
+              query: {  
+                entry:'searchPassword' 
+              },  
+            })
+          }
+        }).catch( err=>{ 
+            //请求失败
+        })
+    }
+    //通过手机验证查询
+    this.mobileSearch=()=>{ 
+      let params={codeType:'APP_QUERY_SALARY'}
+      fetchRequest('/account/sendDynamicCode.do','POST',params)
+      .then( res=>{
+        //请求成功
+        if(res.response=="OK"){
+          hashHistory.push({  
+            pathname: '/sendCode/',  
+            query: {  
+              entry:'mobileSearch' 
+            },  
+          })
+        }
+      }).catch( err=>{ 
+          //请求失败
+      })
+    }
   }  
   componentDidMount(){
     password();
-    let userInfo=JSON.parse(localStorage.getItem("userInfo"));
-		if(userInfo){
-			this.setState({
-				mobile:userInfo.mobile
-			})
-		}
   }
   componentWillUnmount() {
     clearTimeout(this.timer)
@@ -74,23 +113,15 @@ export default class InputPassword extends Component{
             <input type="tel" placeholder="" maxLength="1" value={this.state.psd3} onChange={this.changeValue.bind(this,'psd3')}/>
             <input type="tel" placeholder="" maxLength="1" value={this.state.psd4} onChange={this.changeValue.bind(this,'psd4')}/>
           </div>
-          <Link className="forgetPassWord" to={ 
-            { 
-              pathname:"/sendCode", 
-              query:{entry:'searchPassword',mobile:this.state.mobile} 
-            } 
-          }>
+          <div className="forgetPassWord" onClick={this.forgetPsd}>
             忘记密码?
-          </Link>
+          </div>
           <div className="wrongInfo flex flex-pack-center">
             <span>{this.state.wrongInfo}</span>
           </div>
         </div>
-        <div className="mobile-search flex flex-pack-center"> 
-          <Link to={{ 
-                pathname:"/sendCode", 
-                query:{entry:'mobileSearch',mobile:this.state.mobile} 
-              }} >通过手机验证查询</Link>
+        <div className="mobile-search flex flex-pack-center" onClick={this.mobileSearch}> 
+          通过手机验证查询
         </div>
       </div>
     );

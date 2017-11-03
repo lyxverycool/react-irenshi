@@ -11,7 +11,13 @@ module.exports = {
     inline: true,
     progress: true,
     contentBase: './app',
-    port: 8088
+    port: 8088,
+    proxy: {
+      '/weixin': {
+        target: 'http://192.168.2.121:8080',
+        changeOrigin: true
+      }
+    }
   },
   entry: [
     'webpack/hot/dev-server',

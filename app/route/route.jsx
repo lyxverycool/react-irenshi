@@ -29,7 +29,7 @@ class Main extends Component {
 const route =(
 	<Router history={hashHistory}>
 		<Route path="/" component={Main}>
-			<IndexRoute component={Login}/>
+			<IndexRoute component={Enter}/>
 			<Route path="/enter" component={Enter}/>
 			<Route path="/detail" component={Detail}/>
 			<Route path="/login" component={Login}/>

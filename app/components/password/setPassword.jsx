@@ -13,7 +13,6 @@ export default class SetPassword extends Component{
       psd4:''
     }
     this.changeValue=(type,event)=>{
-      console.log(event.target.value)
       switch(type){
         case 'psd1':this.setState({
           psd1:event.target.value
@@ -60,5 +59,4 @@ export default class SetPassword extends Component{
       </div>
     );
   }
-
 }

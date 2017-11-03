@@ -30,19 +30,6 @@ function inputKey(){
             }
             inputBtn[active].focus();
         }
-        // if (active >= 4) {
-        //     var _value = inputBtn[active].value;
-        //     if (beginBtn.className == 'begin-no' && !isNaN(_value) && _value.length != 0) {
-        //         beginBtn.className = 'begin';
-        //         beginBtn.addEventListener('click', function () {
-        //             calculate.begin();
-        //         }, false);
-        //     }
-        // } else {
-        //     if (beginBtn.className == 'begin') {
-        //         beginBtn.className = 'begin-no';
-        //     }
-        // }
     }
 }
 export default  inputKey;

@@ -1,5 +1,6 @@
 import React,{Component,PropTypes} from "react";
 import {Link,Router, Route, hashHistory,IndexRoute} from 'react-router';
+import fetchRequest from '../../config/fetch';
 require ('../../style/login.scss')
 
 export default class LoginForget extends Component{
@@ -8,7 +9,8 @@ export default class LoginForget extends Component{
 		this.state={
 			company:'',
 			type:'+86',
-			tel:'',
+      tel:'',
+      errorInfo:""
 		}
 		this.changeValue=(type,event)=>{
       if(type==='company'){
@@ -26,8 +28,42 @@ export default class LoginForget extends Component{
         })
       }
     }
-    this.enter=()=>{
-      hashHistory.push('/sendCode')
+    //发送忘记登录密码短信
+    this.forgetPsd=()=>{ 
+      console.log(this.state.company)
+      if(!this.state.company){
+        this.setState({
+          errorInfo:'公司名不能为空！'
+        })
+      }
+      if(!this.state.tel){
+        this.setState({
+          errorInfo:'手机号不能为空！'
+        })
+      }
+      if(this.state.company&&this.state.tel){
+        let user={
+          company:this.state.company,
+          mobile:this.state.tel
+        }
+        user=JSON.stringify(user); 
+        localStorage.setItem("userInfo",user);
+        let params={mobileNo:this.state.tel}
+        fetchRequest('/account/sendAppResetPasswordDynamicCode.do','POST',params)
+        .then( res=>{
+          //请求成功
+          if(res.response=="OK"){
+            hashHistory.push({  
+              pathname: '/sendCode/',  
+              query: {  
+                entry:'loginPassword' 
+              },  
+            })
+          }
+        }).catch( err=>{ 
+            //请求失败
+        })
+      }
     }   
   }
   componentWillMount() {
@@ -74,12 +110,12 @@ export default class LoginForget extends Component{
             </div>
 					</div>
           <div className="login-last">
-            <Link className="loginInNext" to={{ 
-                pathname:"/sendCode", 
-                query:{entry:'loginPassword',mobile:this.state.tel} 
-              }} >下一步</Link>
+            <div onClick={this.forgetPsd} className="loginInNext">下一步</div>
             <Link to={'/login'} className="forgetPassword">返回登录</Link>
           </div>
+          <div className="wrongInfo flex flex-pack-center">
+							{this.state.errorInfo}
+          	</div>
 				</div>
     );
   }
