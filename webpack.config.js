@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-const ExtractTextPlugin=require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const cssExtractor = new ExtractTextPlugin('./[name].css');
 module.exports = {
   devServer: {
@@ -14,7 +14,7 @@ module.exports = {
     port: 8088,
     proxy: {
       '/weixin': {
-        target: 'http://192.168.2.121:8080',
+        target: 'http://192.168.1.110:8093',
         changeOrigin: true
       }
     }
@@ -32,8 +32,8 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.(png|jpg|svg)$/,include: path.resolve(__dirname, 'app'),loader: 'url-loader'},
-      { test: /\.scss$/i, include: path.resolve(__dirname, 'app'),loader: cssExtractor.extract(['css','sass'])},
+      { test: /\.(png|jpg|svg)$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader' },
+      { test: /\.scss$/i, include: path.resolve(__dirname, 'app'), loader: cssExtractor.extract(['css', 'sass']) },
     ]
   },
   resolve: {

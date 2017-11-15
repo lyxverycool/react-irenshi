@@ -12,7 +12,18 @@
 	-ms-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0); 
 }
-
+button{
+	width:100%;
+	height:1.906667rem;
+	line-height: 1.906667rem;
+	color:#fff;
+	background: #00BF93!important;
+	text-align: center;
+	border-radius: .213333rem;
+	font-size:.725333rem;
+  display: block;
+  -webkit-tap-highlight-color:transparent;
+}
 // 背景图移动动画
 
 @-webkit-keyframes animate-cloud {
