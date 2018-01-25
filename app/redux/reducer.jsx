@@ -1,52 +1,32 @@
 import { combineReducers } from 'redux';
-import {counterAction,RECEIVE_POSTS} from './action';
-const count=5;
+import { GET_NOTICELIST_LOADING, GET_NOTICELIST_LOADING_SUCCESS, GET_NOTICELIST_LOADING_FAILD } from './action'
 
-function counter(state = { count: count}, action) {
-  const count = state.count
+export let initialState = {
+  getListData: {
+    loading: true,
+    error: {},
+    data: []
+  }
+}
+
+
+function getListData(state = initialState.getListData, action) {
   switch (action.type) {
-    case 'increase':
-      return { count: count + 1 }
-    case 'decrease':
-      return { count: count - 1 }
+    case 'GET_NOTICELIST_LOADING':
+      return Object.assign({}, state, { data: [], loading: action.payload })
+    case 'GET_NOTICELIST_LOADING_SUCCESS':
+      return Object.assign({}, state, { data: action.payload, loading: false, error: {} })
+    case 'GET_NOTICELIST_LOADING_FAILD':
+      return Object.assign({}, state, { data: [], error: action.payload })
     default:
       return state
   }
 }
 
-
-
-function posts(state = {
-  items: []
-}, action) {
-  switch (action.type) {
-
-    case RECEIVE_POSTS:
-      // Object.assign是ES6的一个语法。合并对象，将对象合并为一个，前后相同的话，后者覆盖强者。详情可以看这里
-      //  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-      return Object.assign({}, state, {
-        items: action.posts //数据都存在了这里
-      })
-    default:
-      return state
-  }
-}
-
-//废弃、接收到、开始接受新闻后，将state.postsByReddit设为相关参数
-function postsByReddit(state = { }, action) {
-  switch (action.type) {
-    case RECEIVE_POSTS:
-      return Object.assign({}, state, {
-        [action.reddit]: posts(state[action.reddit], action)
-      })
-    default:
-      return state
-  }
-}
 
 // 将所有的reducer结合为一个,传给store
 const rootReducer = combineReducers({
-  postsByReddit,counter
+  getListData
 })
 
 export default rootReducer

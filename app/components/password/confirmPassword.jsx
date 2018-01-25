@@ -15,7 +15,6 @@ export default class ConfirmPassword extends Component {
       wrongInfo: ''
     }
     this.changeValue = (type, event) => {
-      console.log(event.target.value)
       switch (type) {
         case 'psd1': this.setState({
           psd1: event.target.value
@@ -34,8 +33,8 @@ export default class ConfirmPassword extends Component {
         });
           let psd = this.state.psd1 + '' + this.state.psd2 + '' + this.state.psd3 + '' + event.target.value;
           this.timer = setTimeout(() => {
-            if (localStorage.getItem('searchPsd')) {
-              if (psd === localStorage.getItem('searchPsd')) {
+            if (sessionStorage.getItem('searchPsd')) {
+              if (psd === sessionStorage.getItem('searchPsd')) {
                 let params = { newSalaryPassword: parseInt(psd) }
                 fetchRequest('/salaryWeixin/setSalaryPassword.do', 'POST', params)
                   .then(res => {
@@ -45,7 +44,12 @@ export default class ConfirmPassword extends Component {
                         wrongInfo: '查询密码设置成功'
                       });
                       setTimeout(function () {
-                        hashHistory.push('/detail')
+                        hashHistory.push({
+                          pathname: '/detail',
+                          query: {
+                            entry: 'one.click.payroll'
+                          }
+                        })
                       }, 1000);
                     }
                     if (res.response == "ERROR") {

@@ -1,38 +1,23 @@
 // 薪资单样式
 .enters{	
-	position: relative;
-	.logo{
-		width:6.464rem;
-		position: absolute;
-		top:5.610667rem;
-		opacity: 0;
-		right:50%;
-		margin-right:-3.232rem;
-	}
-	.enter{
-		width:8.32rem;
-		height:8.32rem;
-		position: absolute;
-		right:50%;
-		bottom:3.306667rem;
-		margin-right:-4.16rem;
-		opacity: 0;
-	}
-	.middle{
-		position: absolute;
-		width:6.4rem;
-		height:6.4rem;
-		right:50%;
-		opacity: 0;
-		bottom:4.26667rem;
-		margin-right:-3.2rem;
-		border-radius: 50%;
-		background:#19AA8D;
-		img{
-			width:3.52rem;
-			height:3.306667rem;
-		}
-	}
+  padding-top:1.578667rem;
+	.list{
+    width:13.866667rem;
+    height:4.266667rem;
+    background: #59C19A;
+    border-radius: .213333rem;
+    margin: .64rem auto;
+    img{
+      width:4.266667rem;
+      height:2.432rem;
+      margin-left:1.066667rem;
+      margin-right:2.048rem;
+    }
+    span{
+      color:#fff;
+      font-size: .853333rem;
+    }
+  }
 }
 .detail{
 	width:100%;
@@ -123,7 +108,6 @@
 		.salaryAll{
 			width:100%;
 			height:3.413333rem;
-			border-bottom:1px solid #ccc;
 			padding-right:.768rem;
 			img{
 				width:2.56rem;
@@ -156,9 +140,9 @@
 		.title{
 			width:100%;
 			padding-left:.64rem;
-			height:1.28rem;
+			height:1.52rem;
 			color:#999999;
-			font-size:.597333rem;
+			font-size:.5697333rem;
 		}
 	}
 }

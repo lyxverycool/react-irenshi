@@ -1,39 +1,42 @@
-import fetch from 'isomorphic-fetch'
-//尚未用到redux
-const counterAction = {};//定义计数的动作(同步操作)
-//const fetchAction={};//定义获取数据的动作(异步操作)
+import fetchRequest from '../config/fetch';
+import { GET_NOTICELIST_LOADING, GET_NOTICELIST_LOADING_SUCCESS, GET_NOTICELIST_LOADING_FAILD } from './action'
 
-counterAction.increaseAction = { type: 'increase' };
-counterAction.decreaseAction = { type: 'decrease' }
-
-const RECEIVE_POSTS = 'RECEIVE_POSTS'
-
-//获取新闻成功的action
-function receivePosts(reddit, json) {
+export function getListLoading(loading) {
   return {
-    type: RECEIVE_POSTS,
-    reddit: reddit,
-    posts: json.data.children.map(child => child.data)
+    type: GET_NOTICELIST_LOADING,
+    payload: loading
   }
 }
 
-function fetchPosts(subreddit) {
+export function getListSuccess(data) {
+  return {
+    type: GET_NOTICELIST_LOADING_SUCCESS,
+    payload: data
+  }
+}
+
+export function getListFaild(error) {
+  return {
+    type: GET_NOTICELIST_LOADING_FAILD,
+    payload: error
+  }
+}
+
+export function getList() {
   return function (dispatch) {
-    return fetch(`http://www.subreddit.com/r/${subreddit}.json`)
-      .then(response => response.json())
-      .then(json =>
-        dispatch(receivePosts(subreddit, json))
-      )
+    dispatch(getListLoading(true));
+    fetchRequest('/getList', 'Get')
+      .then(res => {
+        //请求成功
+        dispatch(getListLoading(false));
+        dispatch(getListSuccess(res));
+      }).catch(err => {
+        //请求失败
+        dispatch(getListLoading(false));
+        dispatch(getListFaild(err));
+      })
   }
 }
 
-//如果需要则开始获取文章
-export function fetchPostsIfNeeded(subreddit) {
-  return (dispatch, getState) => {
-    return dispatch(fetchPosts(subreddit))
-  }
-}
 
 
-
-export { counterAction, RECEIVE_POSTS };

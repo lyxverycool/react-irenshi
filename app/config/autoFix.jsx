@@ -5,8 +5,6 @@ function androidInputBugFix() {
       if (document.activeElement.tagName == 'INPUT' || document.activeElement.tagName == 'TEXTAREA') {
         window.setTimeout(function () {
           document.activeElement.scrollIntoViewIfNeeded();
-          //document.getElementsByClassName("container")[0].style.height="140%";
-          //console.log(bg)
         }, 0);
       }
     })

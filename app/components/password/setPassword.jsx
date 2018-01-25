@@ -31,7 +31,7 @@ export default class SetPassword extends Component {
         });
           let psd = this.state.psd1 + '' + this.state.psd2 + '' + this.state.psd3 + '' + event.target.value;
           setTimeout(function () {
-            localStorage.setItem('searchPsd', psd);
+            sessionStorage.setItem('searchPsd', psd);
             hashHistory.push('/confirmPassword')
           }, 1000);
           break;

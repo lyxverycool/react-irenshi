@@ -1,11 +1,9 @@
 {
   "name": "react-mobile-irenshi",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A boilerplate for React-Babel-Webpack project",
   "main": "app/main.jsx",
   "scripts": {
-    "precommit": "npm run lint",
-    "commitmsg": "npm run lint:msg",
     "lint": "eslint --cache --ignore-path .gitignore --ext .jsx,.js --format=node_modules/eslint-formatter-pretty .",
     "lint:msg": "validate-commit-msg",
     "test": "npm run lint",
@@ -70,12 +68,13 @@
     "sass-loader": "^4.0.2",
     "style-loader": "~0.13.1",
     "url-loader": "^0.5.6",
-    "svg-url-loader":"",
+    "svg-url-loader": "",
     "validate-commit-msg": "2.x",
     "webpack": "1.x",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "1.x",
-    "webpack-hot-middleware": "^2.13.2"
+    "webpack-hot-middleware": "^2.13.2",
+    "swiper": "3.x"
   },
   "keywords": [
     "es6",

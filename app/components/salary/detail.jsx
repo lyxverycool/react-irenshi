@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from "react";
 import { Router, Route, hashHistory, IndexRoute } from 'react-router';
-import fetchRequest from '../../config/fetch';
+import Swiper from "swiper";
+import fetchRequestGateway from '../../config/fetchGateway';
 import Loading from '../common/loading';
+import Nodata from '../common/nodata';
 require('../../style/salary.scss');
 require('../../style/swiper.min.scss')
 
@@ -12,52 +14,73 @@ export default class Detail extends Component {
       activeMonth: '0',
       active: true,
       loading: true,
-      salaryList: {},
+      nodata: false,
+      show: false,
+      staffInfo: {},
+      salaryList: [],
       detailList: {
-        salaryList: []
+        batchMessageList: null
       }
     }
   }
   componentDidMount() {
-    document.title = '我的薪资';
-    fetchRequest('/salaryWeixin/list.do', 'POST')
+    document.title = '自助查询';
+    let functionId = this.props.location.query.entry;
+    fetchRequestGateway('/cnb/aggregate/oneclick/function/staff/month/list?functionId=' + functionId, 'GET')
       .then(res => {
-        if (res.response == "OK") {
-          this.setState({
-            salaryList: res.salaryList,
-            loading: false
-          })
-          //请求第一个数据
-          let params = {
-            month: this.state.salaryList[0].date,
-            part: this.state.salaryList[0].part,
-          }
-          fetchRequest('/salaryWeixin/salaryDetail.do', 'POST', params)
-            .then(res => {
-              //请求成功
-              if (res.response == "OK") {
-                this.setState({
-                  detailList: res
-                })
-              }
-            }).catch(err => {
-              //请求失败
+        if (res.code == 0) {
+          if (res.data.length <= 0) {
+            this.setState({
+              loading: false,
+              show: false,
+              nodata: true
             })
-          //初始化swiper
-          this.mySwiper();
+          } else {
+            this.setState({
+              salaryList: res.data,
+              show: true
+            })//请求基本信息
+            fetchRequestGateway('/cnb/aggregate/oneclick/staff/info', 'GET')
+              .then(res => {
+                //请求成功
+                if (res.code == 0) {
+                  this.setState({
+                    staffInfo: res.data
+                  })
+                }
+              }).catch(err => {
+                //请求失败
+              })
+            //请求第一个数据
+            let groupId = this.state.salaryList[0].groupId;
+            fetchRequestGateway('/cnb/aggregate/oneclick/function/staff/data?groupId=' + groupId + '&functionId=' + functionId, 'GET')
+              .then(res => {
+                //请求成功
+                if (res.code == 0) {
+                  this.setState({
+                    detailList: res.data,
+                    loading: false
+                  })
+                }
+              }).catch(err => {
+                //请求失败
+              })
+            //初始化swiper
+            this.mySwiper(functionId);
+          }
         } else {
           alert(res.error.message);
           setTimeout(function () {
-            hashHistory.push('/inputPassword')
+            hashHistory.push('/index')
           }, 1000);
         }
       }).catch(err => {
         if (err.status === 401) {
-          hashHistory.push('/enter')
+          hashHistory.push('/index')
         }
       })
   }
-  mySwiper() {
+  mySwiper(functionId) {
     var swiper = new Swiper('.swiper-container', {
       slidesPerView: 4,
       nextButton: '.right',
@@ -83,23 +106,15 @@ export default class Detail extends Component {
           loading: true
         })
       }
-      let params = {
-        month: this.state.salaryList[this.state.activeMonth].date,
-        part: this.state.salaryList[this.state.activeMonth].part,
-      }
-      fetchRequest('/salaryWeixin/salaryDetail.do', 'POST', params)
+      let groupId = this.state.salaryList[this.state.activeMonth].groupId;
+      fetchRequestGateway('/cnb/aggregate/oneclick/function/staff/data?groupId=' + groupId + '&functionId=' + functionId, 'GET')
         .then(res => {
           //请求成功
-          if (res.response == "OK") {
+          if (res.code == 0) {
             this.setState({
-              detailList: res,
+              detailList: res.data,
               loading: false
             })
-          } else {
-            alert(res.error.message);
-            setTimeout(function () {
-              hashHistory.push('/inputPassword')
-            }, 1000);
           }
         }).catch(err => {
           //请求失败
@@ -107,11 +122,12 @@ export default class Detail extends Component {
     }
   }
   render() {
-    let detailList = this.state.detailList;
+    let show = this.state.show;
     return (
       <div className="detail">
         <Loading isloading={this.state.loading} />
-        <div className="detail-head flex">
+        <Nodata nodata={this.state.nodata} />
+        <div className="detail-head" style={{ display: !show ? 'none' : 'flex' }}>
           <div className="left flex flex-align-center flex-pack-center">
             <img src={require('../../img/salary/left.png')} alt="" />
           </div>
@@ -121,8 +137,8 @@ export default class Detail extends Component {
                 this.state.salaryList.length > 0 ? this.state.salaryList.map(
                   (monthList, i) => {
                     return (<div key={i} className={this.state.activeMonth == i ? "swiper-slide month-select" : "swiper-slide month"}>
-                      <div className="month-top flex flex-pack-center">{monthList.title}</div>
-                      <div className="month-center flex flex-pack-center">{monthList.monthString}</div>
+                      <div className="month-top flex flex-pack-center">{monthList.year}</div>
+                      <div className="month-center flex flex-pack-center">{monthList.month}</div>
                     </div>)
                   }) : null
               }
@@ -133,7 +149,7 @@ export default class Detail extends Component {
           </div>
         </div>
         {
-          this.state.detailList.salaryList.length > 0 ? <SalaryDetail list={this.state.detailList} /> : null
+          this.state.detailList.batchMessageList ? <SalaryDetail staffInfo={this.state.staffInfo} detailList={this.state.detailList} /> : null
         }
       </div>
     );
@@ -146,8 +162,8 @@ class SalaryDetail extends Component {
     super(props);
   }
   render() {
-    let lists = this.props.list;
-    let salaryList = this.props.list.salaryList;
+    let staffInfo = this.props.staffInfo;
+    let detailList = this.props.detailList.batchMessageList;
     return (
       <div className="salaryDetail">
         <div className="detail-lists">
@@ -157,37 +173,17 @@ class SalaryDetail extends Component {
             </div>
             <div className="salary-right">
               <div className="money">
-                {lists.income.value}
+                {staffInfo.staffName}
               </div>
               <div className="month">
-                {lists.income.deliverTime}
+                {staffInfo.mobileNo}
               </div>
             </div>
           </div>
-          <div className="detail-list">
-            <span className="list-left">劳动合同甲方</span>
-            <span className="list-right">{lists.detail.corporationName}</span>
-          </div>
-          <div className="detail-list">
-            <span className="list-left">部门</span>
-            <span className="list-right">{lists.detail.departmentName}</span>
-          </div>
-          <div className="detail-list">
-            <span className="list-left">职位</span>
-            <span className="list-right">{lists.detail.positionName}</span>
-          </div>
-          <div className="detail-list">
-            <span className="list-left">开户行</span>
-            <span className="list-right">{lists.detail.bankName}</span>
-          </div>
-          <div className="detail-list">
-            <span className="list-left">工资卡号</span>
-            <span className="list-right">{lists.detail.bankCardNo}</span>
-          </div>
         </div>
-        {salaryList.map(
-          (salary, i) =>
-            <ListDetail key={i} salary={salary} />
+        {detailList.map(
+          (detail, i) =>
+            <ListDetail key={i} detail={detail} />
         )
         }
       </div>
@@ -201,16 +197,15 @@ class ListDetail extends Component {
     super(props);
   }
   render() {
-    let salary = this.props.salary;
-    let salaryItemList = this.props.salary.salaryItemList;
+    let detail = this.props.detail;
     return (
       <div className="classify">
         <div className="title flex flex-align-center">
-          {salary.title}
+          {detail.batchName}
         </div>
         <div className="detail-lists">
           {
-            salaryItemList.map(
+            detail.rowCellList.map(
               (salary, i) => {
                 return (
                   <div className="detail-list" key={i}>

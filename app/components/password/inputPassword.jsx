@@ -40,7 +40,12 @@ export default class InputPassword extends Component {
                 .then(res => {
                   //请求成功
                   if (res.responseCode == 0) {
-                    hashHistory.push('/detail')
+                    hashHistory.push({
+                      pathname: '/detail',
+                      query: {
+                        entry: 'one.click.payroll'
+                      }
+                    })
                   } else {
                     this.setState({
                       wrongInfo: res.error.message

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, IndexRoute } from 'react-router';
+import Index from '../components/index/index';
+import Notice from '../components/notice/notice';
+import NoticeList from '../components/notice/noticeList';
 import Enter from '../components/salary/enter';
 import Detail from '../components/salary/detail';
 import Login from '../components/login/login';
-import LoginForget from '../components/login/loginForget';
-import LoginSelect from '../components/login/loginSelect';
-import LoginSet from '../components/login/loginSet';
 import Unbind from '../components/login/unbind';
 import SetPassword from '../components/password/setPassword';
 import InputPassword from '../components/password/inputPassword';
@@ -30,13 +30,13 @@ class Main extends Component {
 const route = (
   <Router history={hashHistory}>
     <Route path="/" component={Main}>
-      <IndexRoute component={Enter} />
+      <IndexRoute component={Index} />
+      <Route path="/index" component={Index} />
+      <Route path="/notice" component={Notice} />
+      <Route path="/noticeList" component={NoticeList} />
       <Route path="/enter" component={Enter} />
       <Route path="/detail" component={Detail} />
       <Route path="/login" component={Login} />
-      <Route path="/loginForget" component={LoginForget} />
-      <Route path="/loginSelect" component={LoginSelect} />
-      <Route path="/loginSet" component={LoginSet} />
       <Route path="/unbind" component={Unbind} />
       <Route path="/setPassword" component={SetPassword} />
       <Route path="/sendCode" component={SendCode} />

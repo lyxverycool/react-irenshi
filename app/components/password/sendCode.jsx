@@ -80,7 +80,12 @@ export default class SendCode extends Component {
                         })
                       }
                       if (res.response == "OK") {
-                        hashHistory.push('/detail')
+                        hashHistory.push({
+                          pathname: '/detail',
+                          query: {
+                            entry: 'one.click.payroll'
+                          }
+                        })
                       }
                     }).catch(err => {
                       //请求失败
@@ -105,6 +110,41 @@ export default class SendCode extends Component {
                       }
                       if (res.response == "OK") {
                         hashHistory.push('/loginSet')
+                      }
+                    }).catch(err => {
+                      //请求失败
+                    })
+                }
+              }
+              //如果入口登录
+              if (Id == 'login') {
+                if (psd.length > 3) {
+                  let Id = this.props.location.query.entry;
+                  let params = {
+                    dynamicCode: parseInt(psd),
+                    mobileNo: this.props.location.query.mobileNo,
+                    companyName: this.props.location.query.companyName,
+                  }
+                  fetchRequest('/account/loginAndBindingCompany.do', 'POST', params)
+                    .then(res => {
+                      console.log(res)
+                      if (res.response === 'ERROR') {
+                        this.setState({
+                          wrongInfo: res.error.message,
+                        })
+                      }
+                      if (res.response === 'OK') {
+                        fetchRequest('/j_spring_security_check', 'POST')
+                          .then(res => {
+                            if (res.success) {
+                              this.setState({
+                                wrongInfo: '登录成功!'
+                              })
+                              hashHistory.push('/index')
+                            }
+                          }).catch(err => {
+                            //请求失败
+                          })
                       }
                     }).catch(err => {
                       //请求失败
@@ -192,6 +232,21 @@ export default class SendCode extends Component {
       if (Id === "loginPassword") {
         let params = { mobileNo: this.state.mobile }
         fetchRequest('/account/sendAppResetPasswordDynamicCode.do', 'POST', params)
+          .then(res => {
+            //请求成功
+            if (res.response == "OK") {
+              this.setState({
+                wrongInfo: '短信发送成功！'
+              })
+            }
+          }).catch(err => {
+            //请求失败
+          })
+      }
+      //重新发送登录密码
+      if (Id == 'login') {
+        let params = { codeType: 'WECHAT_LOGIN', mobileNo: this.state.mobile };
+        fetchRequest('/account/sendLoginDynamicCode.do', 'POST', params)
           .then(res => {
             //请求成功
             if (res.response == "OK") {

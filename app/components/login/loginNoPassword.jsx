@@ -3,7 +3,7 @@ import { Link, Router, Route, hashHistory, IndexRoute } from 'react-router';
 import fetchRequest from '../../config/fetch';
 require('../../style/login.scss')
 
-export default class Login extends Component {
+export default class LoginNoPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,28 +57,19 @@ export default class Login extends Component {
         }
         user = JSON.stringify(user);
         localStorage.setItem("userInfo", user);
-        //请求发送短信验证码
-        let params = { codeType: 'WECHAT_LOGIN', mobileNo: this.state.mobile };
-        fetchRequest('/account/sendLoginDynamicCode.do', 'POST', params)
+        //请求登录接口
+        let params = {
+          companyName: this.state.company,
+          mobileNo: this.state.mobile,
+        }
+        fetchRequest('/account/loginAndBindingCompany.do', 'POST', params)
           .then(res => {
-            //请求成功
-            if (res.response == "OK") {
-              hashHistory.push({
-                pathname: '/sendCode/',
-                query: {
-                  entry: 'login',
-                  companyName: this.state.company,
-                  mobileNo: this.state.mobile
-                },
-              })
-            }
           }).catch(err => {
             //请求失败
           })
       }
     }
   }
-
   componentWillMount() {
     document.title = "登录";
     let type = localStorage.getItem("selectType");
@@ -104,7 +95,7 @@ export default class Login extends Component {
   }
   render() {
     return (
-      <div className="login container">
+      <div className="login2 login container">
         <div className="logo flex flex-pack-center">
           <img src={require('../../img/login/logo.png')} alt="" />
         </div>
@@ -119,14 +110,9 @@ export default class Login extends Component {
             <span className="jian">&gt;</span>
             <input type="tel" maxLength="11" placeholder="手机号" className="mobileNumber" value={this.state.mobile} onChange={this.changeValue.bind(this, 'mobile')} />
           </div>
-          {/* <div className="information flex flex-align-center">
-            <img src={require('../../img/login/code.png')} alt="" />
-            <input type="password" placeholder="密码" className="passwords" value={this.state.password} onChange={this.changeValue.bind(this, 'password')} />
-          </div> */}
-          <div className="loginIn" onClick={this.login}>
+          <div className="loginIn2" onClick={this.login}>
             {this.state.login}
           </div>
-          {/* <Link to={'/loginForget'} className="forgetPassword">忘记密码</Link> */}
           <div className="wrongInfo flex flex-pack-center">
             {this.state.errorInfo}
           </div>
