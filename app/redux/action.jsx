@@ -1,5 +1,5 @@
-import fetchRequest from '../config/fetch';
-import { GET_NOTICELIST_LOADING, GET_NOTICELIST_LOADING_SUCCESS, GET_NOTICELIST_LOADING_FAILD } from './action'
+import fetchRequestGateway from '../config/fetchGateway';
+import { GET_NOTICELIST_LOADING, GET_NOTICELIST_LOADING_SUCCESS, GET_NOTICELIST_LOADING_FAILD } from './actionText'
 
 export function getListLoading(loading) {
   return {
@@ -22,10 +22,10 @@ export function getListFaild(error) {
   }
 }
 
-export function getList() {
+export function getNoticeList() {
   return function (dispatch) {
     dispatch(getListLoading(true));
-    fetchRequest('/getList', 'Get')
+    fetchRequestGateway('/list', 'Get')
       .then(res => {
         //请求成功
         dispatch(getListLoading(false));

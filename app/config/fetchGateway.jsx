@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 require('es6-promise').polyfill();
 
-let common_url = '/weixin/gateway';  //服务器地址
+let common_url = '/index';  //服务器地址
 let token = '';
 /**
  * @param {string} url 接口地址

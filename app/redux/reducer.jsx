@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { GET_NOTICELIST_LOADING, GET_NOTICELIST_LOADING_SUCCESS, GET_NOTICELIST_LOADING_FAILD } from './action'
+import { GET_NOTICELIST_LOADING, GET_NOTICELIST_LOADING_SUCCESS, GET_NOTICELIST_LOADING_FAILD } from './actionText'
 
 export let initialState = {
   getListData: {

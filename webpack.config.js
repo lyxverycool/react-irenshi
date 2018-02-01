@@ -21,6 +21,10 @@ module.exports = {
       '/weixin/': {
         target: 'http://192.168.2.188:8087',
         changeOrigin: true
+      },
+      '/index/': {
+        target: 'http://192.168.2.203:3000',
+        changeOrigin: true
       }
     }
   },

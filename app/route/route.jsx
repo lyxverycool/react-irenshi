@@ -12,6 +12,8 @@ import SetPassword from '../components/password/setPassword';
 import InputPassword from '../components/password/inputPassword';
 import ConfirmPassword from '../components/password/confirmPassword';
 import SendCode from '../components/password/sendCode';
+import List from '../components/list/list';
+import ListDetail from '../components/list/listDetail';
 import hotcss from '../config/app';
 import androidInputBugFix from '../config/autoFix';
 androidInputBugFix();
@@ -42,6 +44,8 @@ const route = (
       <Route path="/sendCode" component={SendCode} />
       <Route path="/inputPassword" component={InputPassword} />
       <Route path="/confirmPassword" component={ConfirmPassword} />
+      <Route path="/list" component={List} />
+      <Route path="/listDetail" component={ListDetail} />
     </Route>
   </Router>
 )
