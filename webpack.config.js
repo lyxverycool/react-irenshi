@@ -9,7 +9,7 @@ module.exports = {
     inline: true,
     progress: true,
     contentBase: './app',
-    port: 8088,
+    port: 8087,
     proxy: {
       '/weixin/gateway': {
         target: 'http://192.168.2.188:5555',
@@ -30,7 +30,7 @@ module.exports = {
   },
   entry: [
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8088',
+    'webpack-dev-server/client?http://localhost:8087',
     path.resolve(__dirname, 'app/main.jsx')
   ],
   output: {
@@ -49,6 +49,6 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   plugins: [
-    new OpenBrowserPlugin({ url: 'http://localhost:8088' })
+    new OpenBrowserPlugin({ url: 'http://localhost:8087' })
   ]
 };
