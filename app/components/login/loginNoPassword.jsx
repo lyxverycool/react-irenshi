@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { Link, Router, Route, hashHistory, IndexRoute } from 'react-router';
-import fetchRequest from '../../config/fetch';
+import StorageFn from '../../config/storage';
+import fetchRequestGateway from '../../config/fetchGateway';
 require('../../style/login.scss')
 
 export default class LoginNoPassword extends Component {
@@ -56,14 +57,16 @@ export default class LoginNoPassword extends Component {
           mobile: this.state.mobile
         }
         user = JSON.stringify(user);
-        localStorage.setItem("userInfo", user);
+        // localStorage.setItem("userInfo", user);
+        new StorageFn().setCookie("userInfo2", user, 60);
         //请求登录接口
         let params = {
           companyName: this.state.company,
           mobileNo: this.state.mobile,
         }
-        fetchRequest('/account/loginAndBindingCompany.do', 'POST', params)
+        fetchRequestGateway('/redis', 'POST', params)
           .then(res => {
+            console.log(res)
           }).catch(err => {
             //请求失败
           })
@@ -85,7 +88,7 @@ export default class LoginNoPassword extends Component {
         })
       }
     }
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    let userInfo = JSON.parse(new StorageFn().getCookie("userInfo"));
     if (userInfo) {
       this.setState({
         company: userInfo.company,

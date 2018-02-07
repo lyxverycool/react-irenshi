@@ -7,6 +7,7 @@ import NoticeList from '../components/notice/noticeList';
 import Enter from '../components/salary/enter';
 import Detail from '../components/salary/detail';
 import Login from '../components/login/login';
+import LoginNoPassword from '../components/login/loginNoPassword';
 import Unbind from '../components/login/unbind';
 import SetPassword from '../components/password/setPassword';
 import InputPassword from '../components/password/inputPassword';
@@ -39,6 +40,7 @@ const route = (
       <Route path="/enter" component={Enter} />
       <Route path="/detail" component={Detail} />
       <Route path="/login" component={Login} />
+      <Route path="/loginNoPassword" component={LoginNoPassword} />
       <Route path="/unbind" component={Unbind} />
       <Route path="/setPassword" component={SetPassword} />
       <Route path="/sendCode" component={SendCode} />
